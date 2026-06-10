@@ -1,0 +1,7 @@
+import {
+  "moonbit-user/moonindex/src",
+}
+
+options(
+  "is-main": true,
+)
