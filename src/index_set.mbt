@@ -147,3 +147,238 @@ pub fn[K : Hash + Eq] IndexSet::difference(
   }
   result
 }
+
+///|
+/// Symmetric difference: elements in either set but not both
+pub fn[K : Hash + Eq] IndexSet::symmetric_difference(
+  self : IndexSet[K],
+  other : IndexSet[K],
+) -> IndexSet[K] {
+  let result = self.difference(other)
+  for k in other.iter() {
+    if !self.contains(k) {
+      result.insert(k) |> ignore
+    }
+  }
+  result
+}
+
+///|
+/// Check if this set is a subset of another
+pub fn[K : Hash + Eq] IndexSet::is_subset(
+  self : IndexSet[K],
+  other : IndexSet[K],
+) -> Bool {
+  for k in self.iter() {
+    if !other.contains(k) {
+      return false
+    }
+  }
+  true
+}
+
+///|
+/// Check if this set is a superset of another
+pub fn[K : Hash + Eq] IndexSet::is_superset(
+  self : IndexSet[K],
+  other : IndexSet[K],
+) -> Bool {
+  other.is_subset(self)
+}
+
+///|
+/// Check if sets are disjoint (no common elements)
+pub fn[K : Hash + Eq] IndexSet::is_disjoint(
+  self : IndexSet[K],
+  other : IndexSet[K],
+) -> Bool {
+  for k in self.iter() {
+    if other.contains(k) {
+      return false
+    }
+  }
+  true
+}
+
+///|
+/// Check if all elements satisfy the predicate
+pub fn[K] IndexSet::all(self : IndexSet[K], f : (K) -> Bool) -> Bool {
+  for k in self.iter() {
+    if !f(k) {
+      return false
+    }
+  }
+  true
+}
+
+///|
+/// Check if any element satisfies the predicate
+pub fn[K] IndexSet::any(self : IndexSet[K], f : (K) -> Bool) -> Bool {
+  for k in self.iter() {
+    if f(k) {
+      return true
+    }
+  }
+  false
+}
+
+///|
+/// Filter elements by predicate
+pub fn[K : Hash + Eq] IndexSet::filter(
+  self : IndexSet[K],
+  f : (K) -> Bool,
+) -> IndexSet[K] {
+  let result = IndexSet::new()
+  for k in self.iter() {
+    if f(k) {
+      result.insert(k) |> ignore
+    }
+  }
+  result
+}
+
+///|
+/// Map elements to a new set
+pub fn[K : Hash + Eq, W : Hash + Eq] IndexSet::map(
+  self : IndexSet[K],
+  f : (K) -> W,
+) -> IndexSet[W] {
+  let result = IndexSet::new()
+  for k in self.iter() {
+    result.insert(f(k)) |> ignore
+  }
+  result
+}
+
+///|
+/// Fold over elements in insertion order
+pub fn[K, A] IndexSet::fold(
+  self : IndexSet[K],
+  init : A,
+  f : (A, K) -> A,
+) -> A {
+  let mut acc = init
+  for k in self.iter() {
+    acc = f(acc, k)
+  }
+  acc
+}
+
+///|
+/// Find first element that satisfies the predicate
+pub fn[K] IndexSet::find(self : IndexSet[K], f : (K) -> Bool) -> K? {
+  for k in self.iter() {
+    if f(k) {
+      return Some(k)
+    }
+  }
+  None
+}
+
+///|
+/// Count elements that satisfy the predicate
+pub fn[K] IndexSet::count(self : IndexSet[K], f : (K) -> Bool) -> Int {
+  let mut count = 0
+  for k in self.iter() {
+    if f(k) {
+      count = count + 1
+    }
+  }
+  count
+}
+
+///|
+/// Clone the set
+pub fn[K : Hash + Eq] IndexSet::clone(self : IndexSet[K]) -> IndexSet[K] {
+  let result = IndexSet::new()
+  for k in self.iter() {
+    result.insert(k) |> ignore
+  }
+  result
+}
+
+///|
+/// Reverse the order of elements
+pub fn[K : Hash + Eq] IndexSet::reverse(self : IndexSet[K]) -> Unit {
+  self.map.reverse()
+}
+
+///|
+/// Get the nth element
+pub fn[K] IndexSet::nth(self : IndexSet[K], n : Int) -> K? {
+  self.get_at(n)
+}
+
+///|
+/// Pop the last element
+pub fn[K : Hash + Eq] IndexSet::pop(self : IndexSet[K]) -> K? {
+  match self.last() {
+    Some(k) => {
+      self.remove(k) |> ignore
+      Some(k)
+    }
+    None => None
+  }
+}
+
+///|
+/// Pop the first element
+pub fn[K : Hash + Eq] IndexSet::pop_first(self : IndexSet[K]) -> K? {
+  match self.first() {
+    Some(k) => {
+      self.remove(k) |> ignore
+      Some(k)
+    }
+    None => None
+  }
+}
+
+///|
+/// Check if set contains all elements from an array
+pub fn[K : Hash + Eq] IndexSet::contains_all(
+  self : IndexSet[K],
+  keys : Array[K],
+) -> Bool {
+  for key in keys.iter() {
+    if !self.contains(key) {
+      return false
+    }
+  }
+  true
+}
+
+///|
+/// Check if set contains any element from an array
+pub fn[K : Hash + Eq] IndexSet::contains_any(
+  self : IndexSet[K],
+  keys : Array[K],
+) -> Bool {
+  for key in keys.iter() {
+    if self.contains(key) {
+      return true
+    }
+  }
+  false
+}
+
+///|
+/// Create from array of elements
+pub fn[K : Hash + Eq] IndexSet::from_array(self : Array[K]) -> IndexSet[K] {
+  let result = IndexSet::new()
+  for k in self.iter() {
+    result.insert(k) |> ignore
+  }
+  result
+}
+
+///|
+/// Get all elements as array (alias for to_array)
+pub fn[K] IndexSet::elements(self : IndexSet[K]) -> Array[K] {
+  self.to_array()
+}
+
+///|
+/// Get the number of elements (alias for length)
+pub fn[K] IndexSet::size(self : IndexSet[K]) -> Int {
+  self.length()
+}

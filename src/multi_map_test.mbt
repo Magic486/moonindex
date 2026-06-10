@@ -183,3 +183,343 @@ test "MultiMap order preserved" {
   let keys = map.keys()
   assert_eq(keys, ["first", "second", "third"])
 }
+
+///|
+test "MultiMap get_last" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  assert_eq(map.get_last("a"), Some(3))
+  assert_eq(map.get_last("b"), None)
+}
+
+///|
+test "MultiMap get_nth" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  assert_eq(map.get_nth("a", 0), Some(1))
+  assert_eq(map.get_nth("a", 1), Some(2))
+  assert_eq(map.get_nth("a", 2), Some(3))
+  assert_eq(map.get_nth("a", 3), None)
+}
+
+///|
+test "MultiMap all_values_satisfy" {
+  let map = MultiMap::new()
+  map.insert("a", 2)
+  map.insert("a", 4)
+  map.insert("a", 6)
+
+  assert_eq(map.all_values_satisfy("a", fn(v) { v % 2 == 0 }), true)
+  assert_eq(map.all_values_satisfy("a", fn(v) { v > 5 }), false)
+}
+
+///|
+test "MultiMap any_value_satisfies" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  assert_eq(map.any_value_satisfies("a", fn(v) { v == 2 }), true)
+  assert_eq(map.any_value_satisfies("a", fn(v) { v == 5 }), false)
+}
+
+///|
+test "MultiMap length" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.length(), 2)
+}
+
+///|
+test "MultiMap value_count" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  assert_eq(map.value_count("a"), 3)
+}
+
+///|
+test "MultiMap clone" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  let cloned = map.clone()
+  assert_eq(cloned.key_count(), 2)
+  assert_eq(cloned.total_count(), 3)
+}
+
+///|
+test "MultiMap merge" {
+  let map1 = MultiMap::new()
+  map1.insert("a", 1)
+  map1.insert("b", 2)
+
+  let map2 = MultiMap::new()
+  map2.insert("b", 3)
+  map2.insert("c", 4)
+
+  map1.merge(map2)
+  assert_eq(map1.get_count("a"), 1)
+  assert_eq(map1.get_count("b"), 2)
+  assert_eq(map1.get_count("c"), 1)
+}
+
+///|
+test "MultiMap from_array" {
+  let map = MultiMap::from_array([("a", 1), ("a", 2), ("b", 3)])
+
+  assert_eq(map.get_count("a"), 2)
+  assert_eq(map.get_count("b"), 1)
+}
+
+///|
+test "MultiMap first_key" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.first_key(), Some("a"))
+}
+
+///|
+test "MultiMap last_key" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.last_key(), Some("b"))
+}
+
+///|
+test "MultiMap first_value" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.first_value(), Some(1))
+}
+
+///|
+test "MultiMap last_value" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.last_value(), Some(2))
+}
+
+///|
+test "MultiMap max_values_count" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  assert_eq(map.max_values_count(), 2)
+}
+
+///|
+test "MultiMap min_values_count" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  assert_eq(map.min_values_count(), 1)
+}
+
+///|
+test "MultiMap avg_values_count" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  assert_eq(map.avg_values_count(), 1.5)
+}
+
+///|
+test "MultiMap all_keys_have_values" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+
+  assert_eq(map.all_keys_have_values(), true)
+}
+
+///|
+test "MultiMap set" {
+  let map = MultiMap::new()
+  map.set("a", [1, 2, 3])
+
+  assert_eq(map.get_count("a"), 3)
+}
+
+///|
+test "MultiMap append" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.append("a", [2, 3])
+
+  assert_eq(map.get_count("a"), 3)
+}
+
+///|
+test "MultiMap prepend" {
+  let map = MultiMap::new()
+  map.insert("a", 2)
+  map.insert("a", 3)
+  map.prepend("a", 1)
+
+  assert_eq(map.get_first("a"), Some(1))
+}
+
+///|
+test "MultiMap slice" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+  map.insert("a", 4)
+
+  let slice = map.slice("a", 1, 3)
+  assert_eq(slice, [2, 3])
+}
+
+///|
+test "MultiMap take" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  let taken = map.take("a", 2)
+  assert_eq(taken, [1, 2])
+}
+
+///|
+test "MultiMap drop" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("a", 3)
+
+  let dropped = map.drop("a", 1)
+  assert_eq(dropped, [2, 3])
+}
+
+///|
+test "MultiMap flatten" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  assert_eq(map.flatten(), [1, 2, 3])
+}
+
+///|
+test "MultiMap distinct_values" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 2)
+  map.insert("b", 3)
+
+  let distinct = map.distinct_values()
+  assert_eq(distinct.length(), 3)
+}
+
+///|
+test "MultiMap keys_by_count" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  let counts = map.keys_by_count()
+  assert_eq(counts.length(), 2)
+}
+
+///|
+test "MultiMap stats" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  let (keys, total, avg, max, min) = map.stats()
+  assert_eq(keys, 2)
+  assert_eq(total, 3)
+  assert_eq(max, 2)
+  assert_eq(min, 1)
+}
+
+///|
+test "MultiMap same_keys" {
+  let map1 = MultiMap::new()
+  map1.insert("a", 1)
+  map1.insert("b", 2)
+
+  let map2 = MultiMap::new()
+  map2.insert("a", 3)
+  map2.insert("b", 4)
+
+  assert_eq(map1.same_keys(map2), true)
+}
+
+///|
+test "MultiMap same_pairs" {
+  let map1 = MultiMap::new()
+  map1.insert("a", 1)
+  map1.insert("a", 2)
+
+  let map2 = MultiMap::new()
+  map2.insert("a", 1)
+  map2.insert("a", 2)
+
+  assert_eq(map1.same_pairs(map2), true)
+}
+
+///|
+test "MultiMap keys_with_most_values" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  let keys = map.keys_with_most_values()
+  assert_eq(keys, ["a"])
+}
+
+///|
+test "MultiMap keys_with_least_values" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+  map.insert("a", 2)
+  map.insert("b", 3)
+
+  let keys = map.keys_with_least_values()
+  assert_eq(keys, ["b"])
+}
+
+///|
+test "MultiMap empty_keys" {
+  let map = MultiMap::new()
+  map.insert("a", 1)
+
+  assert_eq(map.empty_keys().length(), 0)
+}

@@ -1,0 +1,7 @@
+// import {
+//   "moonbit-user/moonindex" @lib,
+// }
+
+options(
+  "is-main": true,
+)
