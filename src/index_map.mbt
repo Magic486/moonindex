@@ -491,3 +491,138 @@ pub fn[K : Hash + Eq, V] IndexMap::pop_first(self : IndexMap[K, V]) -> (K, V)? {
     None => None
   }
 }
+
+///|
+/// Get value by key, or insert a default value if key doesn't exist.
+pub fn[K : Hash + Eq, V] IndexMap::get_or_insert(
+  self : IndexMap[K, V],
+  key : K,
+  default : V,
+) -> V {
+  match self.get(key) {
+    Some(v) => v
+    None => {
+      self.insert(key, default)
+      default
+    }
+  }
+}
+
+///|
+/// Get value by key, or insert and return the result of a default function.
+pub fn[K : Hash + Eq, V] IndexMap::get_or_insert_with(
+  self : IndexMap[K, V],
+  key : K,
+  default : () -> V,
+) -> V {
+  match self.get(key) {
+    Some(v) => v
+    None => {
+      let value = default()
+      self.insert(key, value)
+      value
+    }
+  }
+}
+
+///|
+/// Partition entries into two maps based on a predicate.
+pub fn[K : Hash + Eq, V] IndexMap::partition(
+  self : IndexMap[K, V],
+  f : (K, V) -> Bool,
+) -> (IndexMap[K, V], IndexMap[K, V]) {
+  let passed = IndexMap::new()
+  let failed = IndexMap::new()
+  for entry in self.entries.iter() {
+    let (k, v) = entry
+    if f(k, v) {
+      passed.insert(k, v)
+    } else {
+      failed.insert(k, v)
+    }
+  }
+  (passed, failed)
+}
+
+///|
+/// Invert the map, swapping keys and values. If values are not unique, later entries overwrite earlier ones.
+pub fn[K : Hash + Eq, V : Hash + Eq] IndexMap::invert(
+  self : IndexMap[K, V],
+) -> IndexMap[V, K] {
+  let result = IndexMap::new()
+  for entry in self.entries.iter() {
+    let (k, v) = entry
+    result.insert(v, k)
+  }
+  result
+}
+
+///|
+/// Check if map has a key (alias for contains).
+pub fn[K : Hash + Eq, V] IndexMap::has_key(
+  self : IndexMap[K, V],
+  key : K,
+) -> Bool {
+  self.contains(key)
+}
+
+///|
+/// Get the value for a key, or return a default without inserting.
+pub fn[K : Hash + Eq, V] IndexMap::get_or(
+  self : IndexMap[K, V],
+  key : K,
+  default : V,
+) -> V {
+  match self.get(key) {
+    Some(v) => v
+    None => default
+  }
+}
+
+///|
+/// Update the value for a key using a function, or insert if key doesn't exist.
+pub fn[K : Hash + Eq, V] IndexMap::update_or_insert(
+  self : IndexMap[K, V],
+  key : K,
+  default : V,
+  f : (V) -> V,
+) -> Unit {
+  match self.get(key) {
+    Some(v) => self.insert(key, f(v))
+    None => self.insert(key, default)
+  }
+}
+
+///|
+/// Get the value at a specific position, or compute and insert if not present.
+pub fn[K : Hash + Eq, V] IndexMap::get_at_or_insert(
+  self : IndexMap[K, V],
+  pos : Int,
+  default : (K, V),
+) -> (K, V) {
+  match self.get_at(pos) {
+    Some(entry) => entry
+    None => {
+      let (k, v) = default
+      self.insert(k, v)
+      default
+    }
+  }
+}
+
+///|
+/// Check if the map contains exactly the given keys (no more, no less).
+pub fn[K : Hash + Eq, V] IndexMap::has_exact_keys(
+  self : IndexMap[K, V],
+  keys : Array[K],
+) -> Bool {
+  if self.length() != keys.length() {
+    return false
+  }
+  for key in keys.iter() {
+    if !self.contains(key) {
+      return false
+    }
+  }
+  true
+}

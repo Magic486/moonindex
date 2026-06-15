@@ -407,3 +407,99 @@ test "IndexMap pop_first" {
   assert_eq(map.pop_first(), Some(("a", 1)))
   assert_eq(map.length(), 1)
 }
+
+///|
+test "IndexMap get_or_insert" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  assert_eq(map.get_or_insert("a", 10), 1)
+  assert_eq(map.get_or_insert("b", 20), 20)
+  assert_eq(map.get("b"), Some(20))
+}
+
+///|
+test "IndexMap get_or_insert_with" {
+  let map = IndexMap::new()
+  let mut call_count = 0
+  let value = map.get_or_insert_with("a", fn() {
+    call_count = call_count + 1
+    42
+  })
+  assert_eq(value, 42)
+  assert_eq(call_count, 1)
+  let value2 = map.get_or_insert_with("a", fn() {
+    call_count = call_count + 1
+    99
+  })
+  assert_eq(value2, 42)
+  assert_eq(call_count, 1)
+}
+
+///|
+test "IndexMap partition" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+  map.insert("c", 3)
+  map.insert("d", 4)
+  let (evens, odds) = map.partition(fn(_k, v) { v % 2 == 0 })
+  assert_eq(evens.keys(), ["b", "d"])
+  assert_eq(odds.keys(), ["a", "c"])
+}
+
+///|
+test "IndexMap invert" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+  map.insert("c", 3)
+  let inverted = map.invert()
+  assert_eq(inverted.get(1), Some("a"))
+  assert_eq(inverted.get(2), Some("b"))
+  assert_eq(inverted.get(3), Some("c"))
+}
+
+///|
+test "IndexMap has_key" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  assert_eq(map.has_key("a"), true)
+  assert_eq(map.has_key("b"), false)
+}
+
+///|
+test "IndexMap get_or" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  assert_eq(map.get_or("a", 99), 1)
+  assert_eq(map.get_or("b", 99), 99)
+  assert_eq(map.get("b"), None)
+}
+
+///|
+test "IndexMap update_or_insert" {
+  let map = IndexMap::new()
+  map.update_or_insert("a", 10, fn(v) { v + 1 })
+  assert_eq(map.get("a"), Some(10))
+  map.update_or_insert("a", 10, fn(v) { v + 1 })
+  assert_eq(map.get("a"), Some(11))
+}
+
+///|
+test "IndexMap get_at_or_insert" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  assert_eq(map.get_at_or_insert(0, ("b", 2)), ("a", 1))
+  assert_eq(map.get_at_or_insert(5, ("b", 2)), ("b", 2))
+  assert_eq(map.get("b"), Some(2))
+}
+
+///|
+test "IndexMap has_exact_keys" {
+  let map = IndexMap::new()
+  map.insert("a", 1)
+  map.insert("b", 2)
+  assert_eq(map.has_exact_keys(["a", "b"]), true)
+  assert_eq(map.has_exact_keys(["a"]), false)
+  assert_eq(map.has_exact_keys(["a", "b", "c"]), false)
+}
