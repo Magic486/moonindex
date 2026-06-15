@@ -5,8 +5,8 @@
 - **项目名称**: moonindex
 - **项目类型**: 基础数据结构与算法
 - **项目描述**: 为 MoonBit 提供有序集合数据结构的库，包含 IndexMap、IndexSet、MultiMap、DefaultMap 四种核心数据结构
-- **仓库地址**: https://github.com/moonbit-user/moonindex
-- **mooncakes 地址**: moonbit-user/moonindex
+- **仓库地址**: https://github.com/Magic486/moonindex
+- **mooncakes 地址**: Magic486/moonindex
 - **版本**: 0.1.0
 - **许可证**: Apache-2.0
 
@@ -91,10 +91,10 @@ MoonBit 生态系统目前缺少有序集合数据结构。现有的 HashMap 和
 
 ## 项目统计
 
-- 总代码行数: ~3,972 行（src/ + cmd/ + examples/）
-- 测试行数: ~1,200 行
-- 核心代码行数: ~2,240 行
-- 示例代码行数: ~532 行
+- 总代码行数: ~4,520 行（src/ + cmd/ + examples/）
+- 测试行数: ~1,837 行
+- 核心代码行数: ~2,235 行
+- 示例代码行数: ~415 行
 - 文档行数: ~200 行
 - 测试通过率: 100% (169/169)
 

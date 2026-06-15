@@ -1,46 +1,47 @@
 # moonindex
 
-Ordered collection library for MoonBit, providing data structures that maintain insertion order while offering O(1) lookup performance.
+为 MoonBit 提供的有序集合库，在保持插入顺序的同时提供 O(1) 查找性能。
 
-## Features
+## 特性
 
-- **IndexMap**: Ordered HashMap that preserves insertion order
-- **IndexSet**: Ordered HashSet with O(1) membership test
-- **MultiMap**: One-to-many mapping for grouping operations
-- **DefaultMap**: Auto-initializing map with default values
+- **IndexMap**: 有序 HashMap，保留插入顺序
+- **IndexSet**: 有序 HashSet，支持 O(1) 成员检测
+- **MultiMap**: 一对多映射，适用于分组操作
+- **DefaultMap**: 自动初始化映射，为缺失键提供默认值
 
-## Installation
+## 安装
 
 ```bash
 moon add moonbit-user/moonindex
 ```
 
-## Quick Start
+## 快速开始
 
-```moonbit
+```moonbit nocheck
+///|
 fn main {
-  // IndexMap - ordered HashMap
+  // IndexMap - 有序 HashMap
   let map = IndexMap::new()
   map.insert("first", 1)
   map.insert("second", 2)
   map.insert("third", 3)
-  
+
   println(map.keys())
   println(map.get("second"))
-  
-  // IndexSet - ordered HashSet
+
+  // IndexSet - 有序 HashSet
   let set = IndexSet::new()
   let _ = set.insert("apple")
   let _ = set.insert("banana")
   println(set.to_array())
-  
-  // MultiMap - one-to-many mapping
+
+  // MultiMap - 一对多映射
   let multi = MultiMap::new()
   multi.insert("fruits", "apple")
   multi.insert("fruits", "banana")
   println(multi.get("fruits"))
-  
-  // DefaultMap - auto-initializing counter
+
+  // DefaultMap - 自动初始化计数器
   let counter = DefaultMap::with_value(0)
   counter.increment("apple")
   counter.increment("apple")
@@ -48,13 +49,13 @@ fn main {
 }
 ```
 
-## API Documentation
+## API 文档
 
 ### IndexMap
 
-Ordered HashMap that maintains insertion order while providing O(1) lookup.
+有序 HashMap，保留插入顺序的同时提供 O(1) 查找。
 
-```moonbit
+```moonbit nocheck
 let map = IndexMap::new()
 map.insert("key", 42)
 let value = map.get("key")        // Option[V]
@@ -75,9 +76,9 @@ map.clear()
 
 ### IndexSet
 
-Ordered HashSet that maintains insertion order with O(1) membership test.
+有序 HashSet，保留插入顺序并支持 O(1) 成员检测。
 
-```moonbit
+```moonbit nocheck
 let set = IndexSet::new()
 let is_new = set.insert("element")
 let exists = set.contains("element")
@@ -97,9 +98,9 @@ for elem in set.iter() {          // Iter[K]
 
 ### MultiMap
 
-One-to-many mapping for adjacency lists, HTTP headers, and grouping operations.
+一对多映射，适用于邻接表、HTTP 头和分组操作。
 
-```moonbit
+```moonbit nocheck
 let multi = MultiMap::new()
 multi.insert("key", "value1")
 multi.insert("key", "value2")
@@ -122,15 +123,15 @@ for pair in multi.iter_flat() {       // Iter[(K, V)]
 
 ### DefaultMap
 
-Auto-initializing map that provides default values for missing keys.
+自动初始化映射，为缺失键提供默认值。
 
-```moonbit
+```moonbit nocheck
 let map = DefaultMap::with_value(0)
 let map = DefaultMap::new(fn() { [] })
-let value = map.get("key")        // V (auto-initializes)
+let value = map.get("key")        // V (自动初始化)
 let value = map.get_or_none("key") // Option[V]
 map.insert("key", 42)
-map.increment("key")              // For Int values
+map.increment("key")              // 适用于 Int 值
 map.update("key", fn(v) { v + 1 })
 let keys = map.keys()
 let values = map.values()
@@ -139,11 +140,11 @@ for entry in map.iter() {          // Iter[(K, V)]
 }
 ```
 
-## Use Cases
+## 使用场景
 
-### Word Frequency Counter
+### 词频统计
 
-```moonbit
+```moonbit nocheck
 let counter = DefaultMap::with_value(0)
 let words = ["apple", "banana", "apple", "cherry", "apple"]
 for word in words.iter() {
@@ -153,9 +154,9 @@ println(counter.get("apple"))   // 3
 println(counter.get("banana"))  // 1
 ```
 
-### Grouping by Category
+### 按类别分组
 
-```moonbit
+```moonbit nocheck
 let groups = DefaultMap::new(fn() { [] })
 let items = [("fruit", "apple"), ("fruit", "banana"), ("veg", "carrot")]
 for (cat, item) in items.iter() {
@@ -166,14 +167,14 @@ for (cat, item) in items.iter() {
 println(groups.get("fruit"))  // ["apple", "banana"]
 ```
 
-## Performance
+## 性能
 
-All structures provide O(1) average case for insertions, lookups, and removals. The ordered variants maintain an additional array for insertion order, which adds O(1) space overhead per element.
+所有结构均提供 O(1) 平均时间复杂度的插入、查找和删除操作。有序变体维护一个额外的数组来记录插入顺序，每个元素增加 O(1) 空间开销。
 
-## License
+## 许可证
 
 Apache-2.0
 
-## Contributing
+## 贡献
 
-Issues and pull requests are welcome at [GitHub](https://github.com/moonbit-user/moonindex).
+欢迎通过 [GitHub](https://github.com/Magic486/moonindex) 提交 Issues 和 Pull Requests。
