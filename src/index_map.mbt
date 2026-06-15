@@ -286,10 +286,7 @@ pub fn[K : Hash + Eq, V] IndexMap::get_or_default(
 
 ///|
 /// Check if all entries satisfy the predicate.
-pub fn[K, V] IndexMap::all(
-  self : IndexMap[K, V],
-  f : (K, V) -> Bool,
-) -> Bool {
+pub fn[K, V] IndexMap::all(self : IndexMap[K, V], f : (K, V) -> Bool) -> Bool {
   for entry in self.entries.iter() {
     let (k, v) = entry
     if !f(k, v) {
@@ -301,10 +298,7 @@ pub fn[K, V] IndexMap::all(
 
 ///|
 /// Check if any entry satisfies the predicate.
-pub fn[K, V] IndexMap::any(
-  self : IndexMap[K, V],
-  f : (K, V) -> Bool,
-) -> Bool {
+pub fn[K, V] IndexMap::any(self : IndexMap[K, V], f : (K, V) -> Bool) -> Bool {
   for entry in self.entries.iter() {
     let (k, v) = entry
     if f(k, v) {
@@ -331,10 +325,7 @@ pub fn[K, V] IndexMap::find(
 
 ///|
 /// Count entries that satisfy the predicate.
-pub fn[K, V] IndexMap::count(
-  self : IndexMap[K, V],
-  f : (K, V) -> Bool,
-) -> Int {
+pub fn[K, V] IndexMap::count(self : IndexMap[K, V], f : (K, V) -> Bool) -> Int {
   let mut count = 0
   for entry in self.entries.iter() {
     let (k, v) = entry
@@ -353,7 +344,9 @@ pub fn[K, V] IndexMap::to_array(self : IndexMap[K, V]) -> Array[(K, V)] {
 
 ///|
 /// Clone the IndexMap.
-pub fn[K : Hash + Eq, V] IndexMap::clone(self : IndexMap[K, V]) -> IndexMap[K, V] {
+pub fn[K : Hash + Eq, V] IndexMap::clone(
+  self : IndexMap[K, V],
+) -> IndexMap[K, V] {
   let result = IndexMap::new()
   for entry in self.entries.iter() {
     let (k, v) = entry

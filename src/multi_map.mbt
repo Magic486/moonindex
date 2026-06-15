@@ -357,9 +357,7 @@ pub fn[K, V : Hash + Eq] MultiMap::distinct_values(
 
 ///|
 /// Get keys sorted by value count
-pub fn[K, V] MultiMap::keys_by_count(
-  self : MultiMap[K, V],
-) -> Array[(K, Int)] {
+pub fn[K, V] MultiMap::keys_by_count(self : MultiMap[K, V]) -> Array[(K, Int)] {
   let result = []
   for entry in self.map.iter() {
     let (k, values) = entry
@@ -370,7 +368,9 @@ pub fn[K, V] MultiMap::keys_by_count(
 
 ///|
 /// Clone the MultiMap
-pub fn[K : Hash + Eq, V] MultiMap::clone(self : MultiMap[K, V]) -> MultiMap[K, V] {
+pub fn[K : Hash + Eq, V] MultiMap::clone(
+  self : MultiMap[K, V],
+) -> MultiMap[K, V] {
   let result = MultiMap::new()
   for entry in self.map.iter() {
     let (k, values) = entry
@@ -429,7 +429,11 @@ pub fn[K, V] MultiMap::last_key(self : MultiMap[K, V]) -> K? {
 pub fn[K, V] MultiMap::first_value(self : MultiMap[K, V]) -> V? {
   match self.map.first() {
     Some((_, values)) =>
-      if values.length() > 0 { Some(values[0]) } else { None }
+      if values.length() > 0 {
+        Some(values[0])
+      } else {
+        None
+      }
     None => None
   }
 }
@@ -539,7 +543,9 @@ pub fn[K : Hash + Eq, V] MultiMap::reverse_values(
 
 ///|
 /// Get the most common value across all keys
-pub fn[K, V : Hash + Eq] MultiMap::most_common_value(self : MultiMap[K, V]) -> V? {
+pub fn[K, V : Hash + Eq] MultiMap::most_common_value(
+  self : MultiMap[K, V],
+) -> V? {
   if self.map.is_empty() {
     return None
   }
@@ -586,9 +592,7 @@ pub fn[K, V] MultiMap::empty_keys(self : MultiMap[K, V]) -> Array[K] {
 
 ///|
 /// Get keys with the most values
-pub fn[K, V] MultiMap::keys_with_most_values(
-  self : MultiMap[K, V],
-) -> Array[K] {
+pub fn[K, V] MultiMap::keys_with_most_values(self : MultiMap[K, V]) -> Array[K] {
   if self.map.is_empty() {
     return []
   }
@@ -773,7 +777,9 @@ pub fn[K : Hash + Eq, V, G : Hash + Eq] MultiMap::group_by(
 
 ///|
 /// Get statistics about the MultiMap
-pub fn[K, V] MultiMap::stats(self : MultiMap[K, V]) -> (Int, Int, Double, Int, Int) {
+pub fn[K, V] MultiMap::stats(
+  self : MultiMap[K, V],
+) -> (Int, Int, Double, Int, Int) {
   (
     self.key_count(),
     self.total_count(),

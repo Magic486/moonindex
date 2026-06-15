@@ -239,7 +239,7 @@ pub fn[K : Hash + Eq] IndexSet::filter(
 
 ///|
 /// Map elements to a new set
-pub fn[K : Hash + Eq, W : Hash + Eq] IndexSet::map(
+pub fn[K, W : Hash + Eq] IndexSet::map(
   self : IndexSet[K],
   f : (K) -> W,
 ) -> IndexSet[W] {
@@ -252,11 +252,7 @@ pub fn[K : Hash + Eq, W : Hash + Eq] IndexSet::map(
 
 ///|
 /// Fold over elements in insertion order
-pub fn[K, A] IndexSet::fold(
-  self : IndexSet[K],
-  init : A,
-  f : (A, K) -> A,
-) -> A {
+pub fn[K, A] IndexSet::fold(self : IndexSet[K], init : A, f : (A, K) -> A) -> A {
   let mut acc = init
   for k in self.iter() {
     acc = f(acc, k)

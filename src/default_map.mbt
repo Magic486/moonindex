@@ -153,10 +153,7 @@ pub fn[K, V] DefaultMap::last(self : DefaultMap[K, V]) -> (K, V)? {
 
 ///|
 /// Get entry at position
-pub fn[K, V] DefaultMap::get_at(
-  self : DefaultMap[K, V],
-  pos : Int,
-) -> (K, V)? {
+pub fn[K, V] DefaultMap::get_at(self : DefaultMap[K, V], pos : Int) -> (K, V)? {
   self.map.get_at(pos)
 }
 
@@ -396,9 +393,7 @@ pub fn[K : Hash + Eq, V] DefaultMap::swap(
 
 ///|
 /// Reverse order of entries
-pub fn[K : Hash + Eq, V] DefaultMap::reverse(
-  self : DefaultMap[K, V],
-) -> Unit {
+pub fn[K : Hash + Eq, V] DefaultMap::reverse(self : DefaultMap[K, V]) -> Unit {
   self.map.reverse()
 }
 
@@ -442,7 +437,9 @@ pub fn[K : Hash + Eq, V] DefaultMap::pop(self : DefaultMap[K, V]) -> (K, V)? {
 
 ///|
 /// Pop the first entry
-pub fn[K : Hash + Eq, V] DefaultMap::pop_first(self : DefaultMap[K, V]) -> (K, V)? {
+pub fn[K : Hash + Eq, V] DefaultMap::pop_first(
+  self : DefaultMap[K, V],
+) -> (K, V)? {
   self.map.pop_first()
 }
 

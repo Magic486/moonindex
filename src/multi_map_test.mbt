@@ -461,7 +461,7 @@ test "MultiMap stats" {
   map.insert("a", 2)
   map.insert("b", 3)
 
-  let (keys, total, avg, max, min) = map.stats()
+  let (keys, total, _avg, max, min) = map.stats()
   assert_eq(keys, 2)
   assert_eq(total, 3)
   assert_eq(max, 2)
