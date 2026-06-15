@@ -8,6 +8,8 @@
 - **IndexSet**: 有序 HashSet，支持 O(1) 成员检测
 - **MultiMap**: 一对多映射，适用于分组操作
 - **DefaultMap**: 自动初始化映射，为缺失键提供默认值
+- **BiMap**: 双向映射，键和值均唯一，支持双向查找
+- **OrderedMultiSet**: 有序多重集合，支持元素计数和重复检测
 
 ## 安装
 
@@ -61,6 +63,21 @@ fn main {
   counter.increment("apple")
   counter.increment("apple")
   println(counter.get("apple"))  // 2
+
+  // BiMap - 双向映射
+  let bimap = @moonindex.BiMap::new()
+  bimap.insert("user_1", "session_abc") |> ignore
+  bimap.insert("user_2", "session_def") |> ignore
+  println(bimap.get("user_1"))  // Some("session_abc")
+  println(bimap.get_key("session_def"))  // Some("user_2")
+
+  // OrderedMultiSet - 有序多重集合
+  let multiset = @moonindex.OrderedMultiSet::new()
+  multiset.insert("file_a") |> ignore
+  multiset.insert("file_b") |> ignore
+  multiset.insert("file_a") |> ignore
+  println(multiset.count("file_a"))  // 2
+  println(multiset.duplicates())  // ["file_a"]
 }
 ```
 
@@ -157,6 +174,53 @@ map.update("key", fn(v) { v + 1 })
 let keys = map.keys()
 let values = map.values()
 for entry in map.iter() {          // Iter[(K, V)]
+  // ...
+}
+```
+
+### BiMap
+
+双向映射，键和值均唯一，支持双向 O(1) 查找。
+
+```moonbit
+let bimap = @moonindex.BiMap::new()
+bimap.insert("key", "value") |> ignore
+let value = bimap.get("key")              // Option[V]
+let key = bimap.get_key("value")          // Option[K]
+let has_key = bimap.contains_key("key")
+let has_value = bimap.contains_value("value")
+let has_pair = bimap.contains_pair("key", "value")
+let removed = bimap.remove_by_key("key")
+let removed = bimap.remove_by_value("value")
+let inverted = bimap.inverse()             // BiMap[V, K]
+let keys = bimap.keys()
+let values = bimap.values()
+for entry in bimap.iter() {              // Iter[(K, V)]
+  // ...
+}
+```
+
+### OrderedMultiSet
+
+有序多重集合，保留插入顺序，支持元素计数和重复检测。
+
+```moonbit
+let set = @moonindex.OrderedMultiSet::new()
+set.insert("element") |> ignore
+let count = set.count("element")
+let exists = set.contains("element")
+let removed = set.remove("element")
+let removed = set.remove_all("element")
+let duplicates = set.duplicates()
+let uniques = set.uniques()
+let most_common = set.most_common()
+let least_common = set.least_common()
+let union = set1.union(set2)
+let intersection = set1.intersection(set2)
+let difference = set1.difference(set2)
+let arr = set.to_array()                 // Array[K] (展开重复)
+let unique = set.unique_elements()       // Array[K] (去重)
+for entry in set.iter() {                // Iter[(K, Int)]
   // ...
 }
 ```
