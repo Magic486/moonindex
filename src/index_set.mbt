@@ -10,7 +10,7 @@ pub struct IndexSet[K] {
 ///|
 /// Create a new empty IndexSet
 pub fn[K : Hash + Eq] IndexSet::new() -> IndexSet[K] {
-  IndexSet::{ map: IndexMap::new() }
+  { map: IndexMap::new() }
 }
 
 ///|

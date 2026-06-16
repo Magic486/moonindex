@@ -24,7 +24,7 @@ moon test
 ```
 
 **通过标准**：
-- Total tests: 169, passed: 169, failed: 0
+- Total tests: 226+, failed: 0
 
 ### 3. 演示程序运行
 ```bash

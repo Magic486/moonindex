@@ -1,7 +1,8 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "Magic486/moonindex/cmd/demo"
+package "Magic486/moonindex/examples"
 
 // Values
+pub fn run_all_examples() -> Unit
 
 // Errors
 

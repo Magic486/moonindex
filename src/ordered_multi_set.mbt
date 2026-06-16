@@ -10,7 +10,7 @@ pub struct OrderedMultiSet[K] {
 ///|
 /// Create a new empty OrderedMultiSet
 pub fn[K : Hash + Eq] OrderedMultiSet::new() -> OrderedMultiSet[K] {
-  OrderedMultiSet::{ map: IndexMap::new() }
+  { map: IndexMap::new() }
 }
 
 ///|
@@ -106,7 +106,9 @@ pub fn[K] OrderedMultiSet::is_empty(self : OrderedMultiSet[K]) -> Bool {
 
 ///|
 /// Get unique elements
-pub fn[K] OrderedMultiSet::unique_elements(self : OrderedMultiSet[K]) -> Array[K] {
+pub fn[K] OrderedMultiSet::unique_elements(
+  self : OrderedMultiSet[K],
+) -> Array[K] {
   self.map.keys()
 }
 
@@ -125,9 +127,7 @@ pub fn[K] OrderedMultiSet::to_array(self : OrderedMultiSet[K]) -> Array[K] {
 
 ///|
 /// Iterate over unique elements with their counts
-pub fn[K] OrderedMultiSet::iter(
-  self : OrderedMultiSet[K],
-) -> Iter[(K, Int)] {
+pub fn[K] OrderedMultiSet::iter(self : OrderedMultiSet[K]) -> Iter[(K, Int)] {
   self.map.iter()
 }
 
@@ -169,9 +169,7 @@ pub fn[K : Hash + Eq] OrderedMultiSet::from_array(
 
 ///|
 /// Get most common element
-pub fn[K] OrderedMultiSet::most_common(
-  self : OrderedMultiSet[K],
-) -> K? {
+pub fn[K] OrderedMultiSet::most_common(self : OrderedMultiSet[K]) -> K? {
   let mut max_count = 0
   let mut result = None
   for entry in self.map.iter() {
@@ -186,9 +184,7 @@ pub fn[K] OrderedMultiSet::most_common(
 
 ///|
 /// Get least common element
-pub fn[K] OrderedMultiSet::least_common(
-  self : OrderedMultiSet[K],
-) -> K? {
+pub fn[K] OrderedMultiSet::least_common(self : OrderedMultiSet[K]) -> K? {
   let mut min_count = 999999
   let mut result = None
   for entry in self.map.iter() {
@@ -203,9 +199,7 @@ pub fn[K] OrderedMultiSet::least_common(
 
 ///|
 /// Get elements with count > 1
-pub fn[K] OrderedMultiSet::duplicates(
-  self : OrderedMultiSet[K],
-) -> Array[K] {
+pub fn[K] OrderedMultiSet::duplicates(self : OrderedMultiSet[K]) -> Array[K] {
   let result = []
   for entry in self.map.iter() {
     let (key, count) = entry
@@ -218,9 +212,7 @@ pub fn[K] OrderedMultiSet::duplicates(
 
 ///|
 /// Get unique elements (count == 1)
-pub fn[K] OrderedMultiSet::uniques(
-  self : OrderedMultiSet[K],
-) -> Array[K] {
+pub fn[K] OrderedMultiSet::uniques(self : OrderedMultiSet[K]) -> Array[K] {
   let result = []
   for entry in self.map.iter() {
     let (key, count) = entry
@@ -403,17 +395,13 @@ pub fn[K : Hash + Eq] OrderedMultiSet::is_superset(
 
 ///|
 /// Get unique elements count
-pub fn[K] OrderedMultiSet::unique_count(
-  self : OrderedMultiSet[K],
-) -> Int {
+pub fn[K] OrderedMultiSet::unique_count(self : OrderedMultiSet[K]) -> Int {
   self.map.length()
 }
 
 ///|
 /// Get total duplicates count
-pub fn[K] OrderedMultiSet::total_duplicates(
-  self : OrderedMultiSet[K],
-) -> Int {
+pub fn[K] OrderedMultiSet::total_duplicates(self : OrderedMultiSet[K]) -> Int {
   let mut total = 0
   for entry in self.map.iter() {
     let (_, count) = entry
@@ -426,10 +414,7 @@ pub fn[K] OrderedMultiSet::total_duplicates(
 
 ///|
 /// Get element at position in unique elements
-pub fn[K] OrderedMultiSet::get_at(
-  self : OrderedMultiSet[K],
-  pos : Int,
-) -> K? {
+pub fn[K] OrderedMultiSet::get_at(self : OrderedMultiSet[K], pos : Int) -> K? {
   match self.map.get_at(pos) {
     Some((key, _)) => Some(key)
     None => None
@@ -458,9 +443,7 @@ pub fn[K : Hash + Eq] OrderedMultiSet::pop_first(
 
 ///|
 /// Pop last unique element
-pub fn[K : Hash + Eq] OrderedMultiSet::pop(
-  self : OrderedMultiSet[K],
-) -> K? {
+pub fn[K : Hash + Eq] OrderedMultiSet::pop(self : OrderedMultiSet[K]) -> K? {
   match self.map.pop() {
     Some((key, _)) => Some(key)
     None => None

@@ -28,7 +28,7 @@ test "bimap force insert" {
   assert_eq(bimap.get("a"), Some(10))
   assert_eq(bimap.get_key(1), None)
   assert_eq(bimap.get_key(10), Some("a"))
-  
+
   bimap.force_insert("b", 10)
   assert_eq(bimap.get("b"), Some(10))
   assert_eq(bimap.get("a"), None)
@@ -202,7 +202,7 @@ test "bimap filter by key" {
   bimap.insert("apple", 1) |> ignore
   bimap.insert("banana", 2) |> ignore
   bimap.insert("avocado", 3) |> ignore
-  let filtered = bimap.filter_by_key(fn(k) { k.starts_with("a") })
+  let filtered = bimap.filter_by_key(fn(k) { k.has_prefix("a") })
   assert_eq(filtered.length(), 2)
   assert_eq(filtered.get("apple"), Some(1))
   assert_eq(filtered.get("avocado"), Some(3))
@@ -237,9 +237,9 @@ test "bimap find by key" {
   let bimap = @src.BiMap::new()
   bimap.insert("apple", 1) |> ignore
   bimap.insert("banana", 2) |> ignore
-  let found = bimap.find_by_key(fn(k) { k.starts_with("b") })
+  let found = bimap.find_by_key(fn(k) { k.has_prefix("b") })
   assert_eq(found, Some(("banana", 2)))
-  let not_found = bimap.find_by_key(fn(k) { k.starts_with("z") })
+  let not_found = bimap.find_by_key(fn(k) { k.has_prefix("z") })
   assert_eq(not_found, None)
 }
 
@@ -278,13 +278,13 @@ test "bimap pop and pop_first" {
   assert_eq(bimap.get("c"), None)
   assert_eq(bimap.get_key(3), None)
   assert_eq(bimap.length(), 2)
-  
+
   let first = bimap.pop_first()
   assert_eq(first, Some(("a", 1)))
   assert_eq(bimap.get("a"), None)
   assert_eq(bimap.get_key(1), None)
   assert_eq(bimap.length(), 1)
-  
+
   let empty_pop = bimap.pop()
   assert_eq(bimap.pop(), None)
   assert_eq(bimap.pop_first(), None)

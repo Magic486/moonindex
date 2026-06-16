@@ -1,7 +1,4 @@
 import {
+  "Magic486/moonindex",
   "Magic486/moonindex/src",
 }
-
-options(
-  "is-main": true,
-)

@@ -113,7 +113,7 @@ test "ordered_multi_set most and least common" {
   set.insert("c") |> ignore
   assert_eq(set.most_common(), Some("c"))
   assert_eq(set.least_common(), Some("b"))
-  
+
   let empty = @src.OrderedMultiSet::new()
   assert_eq(empty.most_common(), None)
   assert_eq(empty.least_common(), None)
@@ -132,7 +132,7 @@ test "ordered_multi_set duplicates and uniques" {
   assert_eq(duplicates.length(), 2)
   assert_eq(duplicates.contains("a"), true)
   assert_eq(duplicates.contains("c"), true)
-  
+
   let uniques = set.uniques()
   assert_eq(uniques.length(), 2)
   assert_eq(uniques.contains("b"), true)

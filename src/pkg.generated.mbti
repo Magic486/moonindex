@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonbit-user/moonindex/src"
+package "Magic486/moonindex/src"
 
 import {
   "moonbitlang/core/hashmap",
@@ -10,6 +10,51 @@ import {
 // Errors
 
 // Types and methods
+pub struct BiMap[K, V] {
+  forward : IndexMap[K, V]
+  reverse : IndexMap[V, K]
+}
+pub fn[K, V] BiMap::all_keys(Self[K, V], (K) -> Bool) -> Bool
+pub fn[K, V] BiMap::all_values(Self[K, V], (V) -> Bool) -> Bool
+pub fn[K, V] BiMap::any_key(Self[K, V], (K) -> Bool) -> Bool
+pub fn[K, V] BiMap::any_value(Self[K, V], (V) -> Bool) -> Bool
+pub fn[K, V] BiMap::clear(Self[K, V]) -> Unit
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::clone(Self[K, V]) -> Self[K, V]
+pub fn[K : Hash + Eq, V] BiMap::contains_key(Self[K, V], K) -> Bool
+pub fn[K : Hash + Eq, V : Eq] BiMap::contains_pair(Self[K, V], K, V) -> Bool
+pub fn[K, V : Hash + Eq] BiMap::contains_value(Self[K, V], V) -> Bool
+pub fn[K : Hash + Eq, V : Eq] BiMap::eq(Self[K, V], Self[K, V]) -> Bool
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::filter_by_key(Self[K, V], (K) -> Bool) -> Self[K, V]
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::filter_by_value(Self[K, V], (V) -> Bool) -> Self[K, V]
+pub fn[K, V] BiMap::find_by_key(Self[K, V], (K) -> Bool) -> (K, V)?
+pub fn[K, V] BiMap::find_by_value(Self[K, V], (V) -> Bool) -> (K, V)?
+pub fn[K, V] BiMap::first(Self[K, V]) -> (K, V)?
+pub fn[K, V, A] BiMap::fold(Self[K, V], A, (A, K, V) -> A) -> A
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::force_insert(Self[K, V], K, V) -> Unit
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::from_array(Array[(K, V)]) -> Self[K, V]
+pub fn[K : Hash + Eq, V] BiMap::get(Self[K, V], K) -> V?
+pub fn[K, V] BiMap::get_at(Self[K, V], Int) -> (K, V)?
+pub fn[K, V : Hash + Eq] BiMap::get_key(Self[K, V], V) -> K?
+pub fn[K : Hash + Eq, V] BiMap::get_key_position(Self[K, V], K) -> Int?
+pub fn[K, V : Hash + Eq] BiMap::get_value_position(Self[K, V], V) -> Int?
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::insert(Self[K, V], K, V) -> Bool
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::inverse(Self[K, V]) -> Self[V, K]
+pub fn[K, V] BiMap::is_empty(Self[K, V]) -> Bool
+pub fn[K, V] BiMap::iter(Self[K, V]) -> Iter[(K, V)]
+pub fn[K, V] BiMap::keys(Self[K, V]) -> Array[K]
+pub fn[K, V] BiMap::last(Self[K, V]) -> (K, V)?
+pub fn[K, V] BiMap::length(Self[K, V]) -> Int
+pub fn[K : Hash + Eq, V, V2 : Hash + Eq] BiMap::map_values(Self[K, V], (V) -> V2) -> Self[K, V2]
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::new() -> Self[K, V]
+pub fn[K, V] BiMap::nth_key(Self[K, V], Int) -> K?
+pub fn[K, V] BiMap::nth_value(Self[K, V], Int) -> V?
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::pop(Self[K, V]) -> (K, V)?
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::pop_first(Self[K, V]) -> (K, V)?
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::remove_by_key(Self[K, V], K) -> Bool
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::remove_by_value(Self[K, V], V) -> Bool
+pub fn[K, V] BiMap::to_array(Self[K, V]) -> Array[(K, V)]
+pub fn[K, V] BiMap::values(Self[K, V]) -> Array[V]
+
 pub struct DefaultMap[K, V] {
   map : IndexMap[K, V]
   default_fn : () -> V
@@ -89,9 +134,16 @@ pub fn[K : Hash + Eq, V] IndexMap::from_array(Array[(K, V)]) -> Self[K, V]
 pub fn[K : Hash + Eq, V] IndexMap::get(Self[K, V], K) -> V?
 pub fn[K, V] IndexMap::get_at(Self[K, V], Int) -> (K, V)?
 pub fn[K, V] IndexMap::get_at_or_default(Self[K, V], Int, (K, V)) -> (K, V)
+pub fn[K : Hash + Eq, V] IndexMap::get_at_or_insert(Self[K, V], Int, (K, V)) -> (K, V)
+pub fn[K : Hash + Eq, V] IndexMap::get_or(Self[K, V], K, V) -> V
 pub fn[K : Hash + Eq, V] IndexMap::get_or_default(Self[K, V], K, V) -> V
+pub fn[K : Hash + Eq, V] IndexMap::get_or_insert(Self[K, V], K, V) -> V
+pub fn[K : Hash + Eq, V] IndexMap::get_or_insert_with(Self[K, V], K, () -> V) -> V
 pub fn[K : Hash + Eq, V] IndexMap::get_position(Self[K, V], K) -> Int?
+pub fn[K : Hash + Eq, V] IndexMap::has_exact_keys(Self[K, V], Array[K]) -> Bool
+pub fn[K : Hash + Eq, V] IndexMap::has_key(Self[K, V], K) -> Bool
 pub fn[K : Hash + Eq, V] IndexMap::insert(Self[K, V], K, V) -> Unit
+pub fn[K, V : Hash + Eq] IndexMap::invert(Self[K, V]) -> Self[V, K]
 pub fn[K, V] IndexMap::is_empty(Self[K, V]) -> Bool
 pub fn[K, V] IndexMap::iter(Self[K, V]) -> Iter[(K, V)]
 pub fn[K, V] IndexMap::keys(Self[K, V]) -> Array[K]
@@ -102,6 +154,7 @@ pub fn[K : Hash + Eq, V] IndexMap::merge(Self[K, V], Self[K, V]) -> Unit
 pub fn[K : Hash + Eq, V] IndexMap::new() -> Self[K, V]
 pub fn[K, V] IndexMap::nth_key(Self[K, V], Int) -> K?
 pub fn[K, V] IndexMap::nth_value(Self[K, V], Int) -> V?
+pub fn[K : Hash + Eq, V] IndexMap::partition(Self[K, V], (K, V) -> Bool) -> (Self[K, V], Self[K, V])
 pub fn[K : Hash + Eq, V] IndexMap::pop(Self[K, V]) -> (K, V)?
 pub fn[K : Hash + Eq, V] IndexMap::pop_first(Self[K, V]) -> (K, V)?
 pub fn[K : Hash + Eq, V] IndexMap::remove(Self[K, V], K) -> Bool
@@ -111,6 +164,7 @@ pub fn[K : Hash + Eq, V] IndexMap::shift(Self[K, V], K, Int) -> Bool
 pub fn[K : Hash + Eq, V] IndexMap::swap(Self[K, V], K, K) -> Bool
 pub fn[K, V] IndexMap::to_array(Self[K, V]) -> Array[(K, V)]
 pub fn[K : Hash + Eq, V] IndexMap::update(Self[K, V], K, (V) -> V) -> Unit
+pub fn[K : Hash + Eq, V] IndexMap::update_or_insert(Self[K, V], K, V, (V) -> V) -> Unit
 pub fn[K, V] IndexMap::values(Self[K, V]) -> Array[V]
 
 pub struct IndexSet[K] {
@@ -215,6 +269,47 @@ pub fn[K, V] MultiMap::stats(Self[K, V]) -> (Int, Int, Double, Int, Int)
 pub fn[K : Hash + Eq, V] MultiMap::take(Self[K, V], K, Int) -> Array[V]
 pub fn[K, V] MultiMap::total_count(Self[K, V]) -> Int
 pub fn[K : Hash + Eq, V] MultiMap::value_count(Self[K, V], K) -> Int
+
+pub struct OrderedMultiSet[K] {
+  map : IndexMap[K, Int]
+}
+pub fn[K] OrderedMultiSet::all(Self[K], (K) -> Bool) -> Bool
+pub fn[K] OrderedMultiSet::any(Self[K], (K) -> Bool) -> Bool
+pub fn[K] OrderedMultiSet::clear(Self[K]) -> Unit
+pub fn[K : Hash + Eq] OrderedMultiSet::clone(Self[K]) -> Self[K]
+pub fn[K : Hash + Eq] OrderedMultiSet::contains(Self[K], K) -> Bool
+pub fn[K : Hash + Eq] OrderedMultiSet::count(Self[K], K) -> Int
+pub fn[K : Hash + Eq] OrderedMultiSet::difference(Self[K], Self[K]) -> Self[K]
+pub fn[K] OrderedMultiSet::duplicates(Self[K]) -> Array[K]
+pub fn[K : Hash + Eq] OrderedMultiSet::filter_by_count(Self[K], (Int) -> Bool) -> Self[K]
+pub fn[K] OrderedMultiSet::first(Self[K]) -> K?
+pub fn[K, A] OrderedMultiSet::fold(Self[K], A, (A, K, Int) -> A) -> A
+pub fn[K : Hash + Eq] OrderedMultiSet::from_array(Array[K]) -> Self[K]
+pub fn[K] OrderedMultiSet::get_at(Self[K], Int) -> K?
+pub fn[K : Hash + Eq] OrderedMultiSet::get_position(Self[K], K) -> Int?
+pub fn[K : Hash + Eq] OrderedMultiSet::insert(Self[K], K) -> Int
+pub fn[K : Hash + Eq] OrderedMultiSet::intersection(Self[K], Self[K]) -> Self[K]
+pub fn[K] OrderedMultiSet::is_empty(Self[K]) -> Bool
+pub fn[K : Hash + Eq] OrderedMultiSet::is_subset(Self[K], Self[K]) -> Bool
+pub fn[K : Hash + Eq] OrderedMultiSet::is_superset(Self[K], Self[K]) -> Bool
+pub fn[K] OrderedMultiSet::iter(Self[K]) -> Iter[(K, Int)]
+pub fn[K] OrderedMultiSet::last(Self[K]) -> K?
+pub fn[K] OrderedMultiSet::least_common(Self[K]) -> K?
+pub fn[K, K2 : Hash + Eq] OrderedMultiSet::map(Self[K], (K) -> K2) -> Self[K2]
+pub fn[K] OrderedMultiSet::most_common(Self[K]) -> K?
+pub fn[K : Hash + Eq] OrderedMultiSet::new() -> Self[K]
+pub fn[K : Hash + Eq] OrderedMultiSet::pop(Self[K]) -> K?
+pub fn[K : Hash + Eq] OrderedMultiSet::pop_first(Self[K]) -> K?
+pub fn[K : Hash + Eq] OrderedMultiSet::remove(Self[K], K) -> Bool
+pub fn[K : Hash + Eq] OrderedMultiSet::remove_all(Self[K], K) -> Bool
+pub fn[K] OrderedMultiSet::to_array(Self[K]) -> Array[K]
+pub fn[K] OrderedMultiSet::total_duplicates(Self[K]) -> Int
+pub fn[K] OrderedMultiSet::total_length(Self[K]) -> Int
+pub fn[K : Hash + Eq] OrderedMultiSet::union(Self[K], Self[K]) -> Self[K]
+pub fn[K] OrderedMultiSet::unique_count(Self[K]) -> Int
+pub fn[K] OrderedMultiSet::unique_elements(Self[K]) -> Array[K]
+pub fn[K] OrderedMultiSet::unique_length(Self[K]) -> Int
+pub fn[K] OrderedMultiSet::uniques(Self[K]) -> Array[K]
 
 // Type aliases
 

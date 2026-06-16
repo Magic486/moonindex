@@ -12,7 +12,7 @@ pub struct IndexMap[K, V] {
 ///|
 /// Create a new empty IndexMap
 pub fn[K : Hash + Eq, V] IndexMap::new() -> IndexMap[K, V] {
-  IndexMap::{ entries: [], index: @hashmap.HashMap([]) }
+  { entries: [], index: HashMap([]) }
 }
 
 ///|
@@ -546,7 +546,7 @@ pub fn[K : Hash + Eq, V] IndexMap::partition(
 
 ///|
 /// Invert the map, swapping keys and values. If values are not unique, later entries overwrite earlier ones.
-pub fn[K : Hash + Eq, V : Hash + Eq] IndexMap::invert(
+pub fn[K, V : Hash + Eq] IndexMap::invert(
   self : IndexMap[K, V],
 ) -> IndexMap[V, K] {
   let result = IndexMap::new()

@@ -12,7 +12,7 @@ pub struct BiMap[K, V] {
 ///|
 /// Create a new empty BiMap
 pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::new() -> BiMap[K, V] {
-  BiMap::{ forward: IndexMap::new(), reverse: IndexMap::new() }
+  { forward: IndexMap::new(), reverse: IndexMap::new() }
 }
 
 ///|
@@ -40,16 +40,12 @@ pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::force_insert(
 ) -> Unit {
   // Remove old value if key exists
   match self.forward.get(key) {
-    Some(old_value) => {
-      self.reverse.remove(old_value) |> ignore
-    }
+    Some(old_value) => self.reverse.remove(old_value) |> ignore
     None => ()
   }
   // Remove old key if value exists
   match self.reverse.get(value) {
-    Some(old_key) => {
-      self.forward.remove(old_key) |> ignore
-    }
+    Some(old_key) => self.forward.remove(old_key) |> ignore
     None => ()
   }
   self.forward.insert(key, value)
@@ -58,19 +54,13 @@ pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::force_insert(
 
 ///|
 /// Get value by key
-pub fn[K : Hash + Eq, V] BiMap::get(
-  self : BiMap[K, V],
-  key : K,
-) -> V? {
+pub fn[K : Hash + Eq, V] BiMap::get(self : BiMap[K, V], key : K) -> V? {
   self.forward.get(key)
 }
 
 ///|
 /// Get key by value (inverse lookup)
-pub fn[K, V : Hash + Eq] BiMap::get_key(
-  self : BiMap[K, V],
-  value : V,
-) -> K? {
+pub fn[K, V : Hash + Eq] BiMap::get_key(self : BiMap[K, V], value : V) -> K? {
   self.reverse.get(value)
 }
 
@@ -200,7 +190,9 @@ pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::from_array(
 
 ///|
 /// Swap key and value (inverse the mapping)
-pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::inverse(self : BiMap[K, V]) -> BiMap[V, K] {
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::inverse(
+  self : BiMap[K, V],
+) -> BiMap[V, K] {
   let result = BiMap::new()
   for entry in self.forward.iter() {
     let (key, value) = entry
@@ -211,43 +203,33 @@ pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::inverse(self : BiMap[K, V]) -> BiMap
 
 ///|
 /// Check if all keys satisfy predicate
-pub fn[K, V] BiMap::all_keys(
-  self : BiMap[K, V],
-  f : (K) -> Bool,
-) -> Bool {
+pub fn[K, V] BiMap::all_keys(self : BiMap[K, V], f : (K) -> Bool) -> Bool {
   self.forward.keys().all(f)
 }
 
 ///|
 /// Check if all values satisfy predicate
-pub fn[K, V] BiMap::all_values(
-  self : BiMap[K, V],
-  f : (V) -> Bool,
-) -> Bool {
+pub fn[K, V] BiMap::all_values(self : BiMap[K, V], f : (V) -> Bool) -> Bool {
   self.forward.values().all(f)
 }
 
 ///|
 /// Check if any key satisfies predicate
-pub fn[K, V] BiMap::any_key(
-  self : BiMap[K, V],
-  f : (K) -> Bool,
-) -> Bool {
+pub fn[K, V] BiMap::any_key(self : BiMap[K, V], f : (K) -> Bool) -> Bool {
   self.forward.keys().any(f)
 }
 
 ///|
 /// Check if any value satisfies predicate
-pub fn[K, V] BiMap::any_value(
-  self : BiMap[K, V],
-  f : (V) -> Bool,
-) -> Bool {
+pub fn[K, V] BiMap::any_value(self : BiMap[K, V], f : (V) -> Bool) -> Bool {
   self.forward.values().any(f)
 }
 
 ///|
 /// Clone the BiMap
-pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::clone(self : BiMap[K, V]) -> BiMap[K, V] {
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::clone(
+  self : BiMap[K, V],
+) -> BiMap[K, V] {
   let result = BiMap::new()
   for entry in self.forward.iter() {
     let (key, value) = entry
@@ -333,10 +315,7 @@ pub fn[K, V, A] BiMap::fold(
 
 ///|
 /// Find entry by key predicate
-pub fn[K, V] BiMap::find_by_key(
-  self : BiMap[K, V],
-  f : (K) -> Bool,
-) -> (K, V)? {
+pub fn[K, V] BiMap::find_by_key(self : BiMap[K, V], f : (K) -> Bool) -> (K, V)? {
   for entry in self.forward.iter() {
     let (key, value) = entry
     if f(key) {
@@ -407,9 +386,7 @@ pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::pop_first(
 
 ///|
 /// Pop last entry
-pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::pop(
-  self : BiMap[K, V],
-) -> (K, V)? {
+pub fn[K : Hash + Eq, V : Hash + Eq] BiMap::pop(self : BiMap[K, V]) -> (K, V)? {
   match self.forward.pop() {
     Some((key, value)) => {
       self.reverse.remove(value) |> ignore

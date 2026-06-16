@@ -14,7 +14,7 @@
 ## 安装
 
 ```bash
-moon add moonbit-user/moonindex
+moon add Magic486/moonindex
 ```
 
 ## 快速开始
@@ -22,7 +22,7 @@ moon add moonbit-user/moonindex
 ### 1. 安装库
 
 ```bash
-moon add moonbit-user/moonindex
+moon add Magic486/moonindex
 ```
 
 ### 2. 创建你的项目
@@ -30,7 +30,7 @@ moon add moonbit-user/moonindex
 ```bash
 moon new myproject
 cd myproject
-moon add moonbit-user/moonindex
+moon add Magic486/moonindex
 ```
 
 ### 3. 使用示例

@@ -12,7 +12,7 @@
 ## 安装
 
 ```bash
-moon add moonbit-user/moonindex
+moon add Magic486/moonindex
 ```
 
 ## 快速开始

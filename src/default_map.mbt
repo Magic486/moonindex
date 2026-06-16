@@ -14,7 +14,7 @@ pub struct DefaultMap[K, V] {
 pub fn[K : Hash + Eq, V] DefaultMap::new(
   default_fn : () -> V,
 ) -> DefaultMap[K, V] {
-  DefaultMap::{ map: IndexMap::new(), default_fn }
+  { map: IndexMap::new(), default_fn }
 }
 
 ///|

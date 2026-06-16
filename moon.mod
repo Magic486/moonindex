@@ -1,4 +1,4 @@
-name = "moonbit-user/moonindex"
+name = "Magic486/moonindex"
 
 version = "0.1.0"
 

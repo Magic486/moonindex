@@ -1,5 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonbit-user/moonindex"
+package "Magic486/moonindex"
+
+import {
+  "Magic486/moonindex/src",
+}
 
 // Values
 
@@ -8,6 +12,17 @@ package "moonbit-user/moonindex"
 // Types and methods
 
 // Type aliases
+pub using @src {type BiMap}
+
+pub using @src {type DefaultMap}
+
+pub using @src {type IndexMap}
+
+pub using @src {type IndexSet}
+
+pub using @src {type MultiMap}
+
+pub using @src {type OrderedMultiSet}
 
 // Traits
 

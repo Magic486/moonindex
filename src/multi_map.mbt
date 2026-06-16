@@ -10,7 +10,7 @@ pub struct MultiMap[K, V] {
 ///|
 /// Create a new empty MultiMap
 pub fn[K : Hash + Eq, V] MultiMap::new() -> MultiMap[K, V] {
-  MultiMap::{ map: IndexMap::new() }
+  { map: IndexMap::new() }
 }
 
 ///|
