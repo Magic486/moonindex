@@ -17,11 +17,11 @@ fn morse_code_example() -> Unit {
 
   // Forward lookup: character to Morse code
   let morse_a = encoding.get("A")
-  println("A -> \{morse_a}")
+  println("A -> \{to_repr(morse_a)}")
 
   // Reverse lookup: Morse code to character
   let char_dot = encoding.get_key(".")
-  println(". -> \{char_dot}")
+  println(". -> \{to_repr(char_dot)}")
 
   // Check if a pair exists
   let has_ae = encoding.contains_pair("A", ".-")
@@ -30,7 +30,7 @@ fn morse_code_example() -> Unit {
   // Invert the mapping
   let inverted = encoding.inverse()
   let char_from_morse = inverted.get("-..")
-  println("-.. -> \{char_from_morse}")
+  println("-.. -> \{to_repr(char_from_morse)}")
 
   // Count total mappings
   println("Total mappings: \{encoding.length()}")
@@ -38,6 +38,6 @@ fn morse_code_example() -> Unit {
   // Get all keys and values
   let chars = encoding.keys()
   let codes = encoding.values()
-  println("Characters: \{chars}")
-  println("Morse codes: \{codes}")
+  println("Characters: \{to_repr(chars)}")
+  println("Morse codes: \{to_repr(codes)}")
 }

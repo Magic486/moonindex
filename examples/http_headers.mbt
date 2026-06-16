@@ -17,11 +17,11 @@ fn http_headers_example() -> Unit {
   println("All headers:")
   for entry in headers.iter() {
     let (key, values) = entry
-    println(key + ": " + values.to_string())
+    println("\{key}: \{to_repr(values)}")
   }
 
   println(
-    "\nAccept header values: " + headers.get("Accept").unwrap_or([]).to_string(),
+    "\nAccept header values: \{to_repr(headers.get("Accept").unwrap_or([]))}",
   )
   println("Number of unique headers: " + headers.key_count().to_string())
   println("Total header values: " + headers.total_count().to_string())

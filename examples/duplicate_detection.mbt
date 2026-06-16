@@ -15,11 +15,11 @@ fn duplicate_detection_example() -> Unit {
 
   // Check for duplicates
   let duplicates = file_hashes.duplicates()
-  println("Duplicate hashes found: \{duplicates}")
+  println("Duplicate hashes found: \{to_repr(duplicates)}")
 
   // Get unique file hashes
   let uniques = file_hashes.uniques()
-  println("Unique hashes: \{uniques}")
+  println("Unique hashes: \{to_repr(uniques)}")
 
   // Count occurrences
   let abc_count = file_hashes.count("abc123")
@@ -32,8 +32,8 @@ fn duplicate_detection_example() -> Unit {
   // Get most and least common
   let most_common = file_hashes.most_common()
   let least_common = file_hashes.least_common()
-  println("Most common hash: \{most_common}")
-  println("Least common hash: \{least_common}")
+  println("Most common hash: \{to_repr(most_common)}")
+  println("Least common hash: \{to_repr(least_common)}")
 
   // Total statistics
   println("Unique files: \{file_hashes.unique_length()}")

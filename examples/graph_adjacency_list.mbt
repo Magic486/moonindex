@@ -18,7 +18,7 @@ fn graph_adjacency_list_example() -> Unit {
 
   for entry in graph.iter() {
     let (node, neighbors) = entry
-    println(node + " -> " + neighbors.to_string())
+    println("\{node} -> \{to_repr(neighbors)}")
   }
 
   println("\nGraph Statistics:")
